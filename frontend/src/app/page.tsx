@@ -1,6 +1,23 @@
+'use client'
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+
 
 export default function Home() {
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    axios.get('http://localhost:8080/api/hello')
+      .then(response => {
+        setMessage(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -15,15 +32,8 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
+           
+            <h1>{message}</h1>
           </a>
         </div>
       </div>
